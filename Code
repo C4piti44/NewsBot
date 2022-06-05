@@ -1,12 +1,8 @@
 from bs4 import BeautifulSoup
 import requests
 import re
+import smtplib
 
-source = requests.get("https://ims.gov.il/he/Forecasts").text
-soup = BeautifulSoup(source , 'lxml')
-print(soup.prettify())
-weather = soup.select_one('div[role="listbox"] > div:nth-of-type(2) p.temp > span:nth-of-type(3)').text
-print(weather)
 
 def n12():
     source = requests.get("https://www.n12.co.il/").text
@@ -22,4 +18,34 @@ def n12():
             pass
         print(str(place)+"." +headline)
 
+
+def weather():
+    source = requests.get("https://www.ynet.co.il/weather").text
+    soup = BeautifulSoup(source, 'lxml')
+    weather = soup.select_one('div.forcast-tempature-mobile').text
+    print(weather)
+
+
+def bbc():
+    source = requests.get('https://www.bbc.com/').text
+    soup = BeautifulSoup(source , 'lxml')
+    media = soup.find('ul' , class_ = 'media-list')
+    headline = media.find_all('li' , class_= 'media-list__item')
+    j = 2
+    print("1." + headline[0].a.text.strip() + '' + headline[0].p.text.strip())
+    for i  in range(1,5):
+        print(str(j) + "." + headline[i].a.text.strip())
+        j=j+1
+
+
+def mariv():
+    source = requests.get('https://www.maariv.co.il/').text
+    soup = BeautifulSoup(source , 'lxml')
+    top = "1." +soup.select_one('div.top-story-text-wrap').find_all('span')[1].text.strip() + " " +soup.select_one('div.top-story-text-wrap').find_all('span')[2].text
+    article = soup.select("div.three-articles-in-row-text-wrap")
+    print(top)
+    j=2
+    for i in range(0,2):
+        print(str(j)+"."+article[i].find(class_ = "three-articles-in-row-overlay-text").text.strip() + article[i].find(class_ = "three-articles-in-row-title title-hover draft-title-cms").text.strip())
+        j=j+1
 

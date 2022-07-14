@@ -69,13 +69,15 @@ def mariv():
     hey = '\n'.join(arr)
     return hey
 
-
-articles_array = ['The weather is : ' + weather() , " "," ", "Hey, it's Mike the NewsBot here is your news for today,\nHave a great day! " ," ", n12() , bbc() ,' ',' ',  mariv()]
-message = '\n'.join(articles_array).encode('utf-8')
-sender_email = 'amit.gilat5@gmail.com'
-rec_email = 'amit.gilat5@gmail.com'
-password = 'xinmcjuukjkqnruw'
-server = smtplib.SMTP('smtp.gmail.com')
-server.starttls()
-server.login(sender_email , password)
-server.sendmail(sender_email , rec_email , message)
+while True:
+    if(int(datetime.now().strftime("%H")) == 8 and int(datetime.now().strftime("%S")) >= 0 and int(datetime.now().strftime("%M")) >= 0 ):
+        articles_array = ['The weather is : ' + weather() , " "," ", "Hey, it's Mike the NewsBot here is your news for today,\nHave a great day! " ," ", n12() , bbc() ,' ',' ',  mariv()]
+        message = '\n'.join(articles_array).encode('utf-8')
+        sender_email = 'amit.gilat5@gmail.com'
+        rec_email = 'amit.gilat5@gmail.com'
+        password = 'xinmcjuukjkqnruw'
+        server = smtplib.SMTP('smtp.gmail.com')
+        server.starttls()
+        server.login(sender_email , password)
+        server.sendmail(sender_email , rec_email , message)
+        break
